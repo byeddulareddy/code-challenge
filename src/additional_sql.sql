@@ -14,11 +14,11 @@
 with site_visit as (select customer_id,count(*) as customer_visit_count 
 								from siteVisit group by customer_id),
 
-weeks as (select customer_key as customer_id,
+number_of_weeks as (select customer_key as customer_id,
 				case when DATEDIFF(week, order_date,joinDate)<1 
-					then 1
+						then 1
 				else  DATEDIFF(week, order_date,joinDate)
-				END as week ,
+						END as week ,
 				sv.customer_visit_count
 		from (select cs.customer_key, 
 						cs.event_time as joinDate , 
@@ -29,9 +29,9 @@ weeks as (select customer_key as customer_id,
 			join site_visit sv
 				on sv.customer_id=a.customer_key ),
 
-calculate_lvt as (select  customer_id,(52 * (orderedAmount / week )) * 10 as lvt from weeks )
+calculate_lvt as (select  customer_id,(52 * (orderedAmount / week )) * 10 as lvt from number_of_weeks )
 
-select calculate_lvt from calculate_lvt order by lvt asc
+select calculate_lvt from calculate_lvt order by lvt asc;
 
 
 

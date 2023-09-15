@@ -11,8 +11,8 @@ def Ingest(e, D):
     
     # Event time max and min date time calculating
     event_time = datetime.strptime(e["event_time"], "%Y-%m-%dT%H:%M:%S.%fZ")
-    D["MaxDate"] = max(event_time,D["MaxDate"])
-    D["MinDate"] = min(event_time,D["MinDate"])
+    D["Max_Date"] = max(event_time,D["Max_Date"])
+    D["Min_Date"] = min(event_time,D["Min_Date"])
     print(D)
 
     # Since customer ID in common in all events so creating the data structure with customer id 
@@ -73,8 +73,8 @@ def TopXSimpleLTVCustomers(x, D):
     xRunner = 0
     t = 10
     
-    LastdataDate = D["MaxDate"]
-    MindataDate = D["MinDate"]
+    LastdataDate = D["Max_Date"]
+    MindataDate = D["Min_Date"]
     CustList = D["data"].keys()
     
     for customer_id in CustList:
@@ -122,11 +122,8 @@ def TopXSimpleLTVCustomers(x, D):
 
 if __name__ == "__main__":
 
-    D = {"data": {},
-         "MaxDate":datetime.min,
-         "MinDate":datetime.max}
+    D = {"data": {},"Max_Date":datetime.min,"Min_Date":datetime.max}
     input_file_path = r"C:\Users\Bhargava Reddy\Downloads\challenge\breddy\code-challenge\input\input.txt"
-   
     read_file = json.load(open(input_file_path)) 
 
     #Adding data to the data structure
